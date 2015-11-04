@@ -112,7 +112,7 @@ class Aircraft:
         return self._registration
 
     def num_seats(self):
-        rows, row_seats = self.seating_plan()
+        rows, row_seats = self.seating_plan()       # Class is abstract since it uses a not defined method
         return len(rows) * len(row_seats)
 
 

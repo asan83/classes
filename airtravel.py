@@ -30,16 +30,7 @@ class Flight:
     def aircraft_model(self):
         return self._aircraft.model()
 
-    def allocate_seat(self, seat, passenger):
-        """Allocate a seat to a passenger.
-
-        Args:
-            seat: A seat designator such as '12C' or '21F'.
-            passenger: passenger name.
-
-        Raises:
-            ValueError: If the seat is unavailable
-        """
+    def _parse_seat(self, seat):
         rows, seat_letters = self._aircraft.seating_plan()
 
         letter = seat[-1] # get a seat letter by using negative indexing
@@ -54,6 +45,20 @@ class Flight:
 
         if row not in rows:
             raise ValueError("Invalid row number".format(row))
+
+        return row, letter
+
+    def allocate_seat(self, seat, passenger):
+        """Allocate a seat to a passenger.
+
+        Args:
+            seat: A seat designator such as '12C' or '21F'.
+            passenger: passenger name.
+
+        Raises:
+            ValueError: If the seat is unavailable
+        """
+        row, letter = self._parse_seat(seat)
 
         if self._seating[row][letter] is not None:
             raise ValueError("Seat {} already occupied".format(seat))

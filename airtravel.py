@@ -103,32 +103,49 @@ class Flight:
                    if row is not None)
 
 
-class Aircraft:
-    def __init__(self, registration, model, num_rows, num_seats_per_row):
+class AirbusA319:
+    def __init__(self, registration):
         self._registration = registration
-        self._model = model
-        self._num_rows = num_rows
-        self._num_seats_per_row = num_seats_per_row
 
     def registration(self):
         return self._registration
 
     def model(self):
-        return self._model
+        return "Airbus A319"
 
     def seating_plan(self):
-        return (range(1, self._num_rows + 1),
-                "ABCDEFGHJK"[:self._num_seats_per_row])
+        return range(1, 23), "ABCDEF"
 
 
-def make_flight():
-    f = Flight("BA758", Aircraft("G-EPPE", "Airbus A319", 22, 6))
+class Boeing777:
+    def __init__(self, registration):
+        self._registration = registration
+
+    def registration(self):
+        return self._registration
+
+    def model(self):
+        return "Boeing 777"
+
+    def seating_plan(self):
+        return range(1, 56), "ABCDEGHJK"
+
+
+def make_flights():
+    f = Flight("BA758", AirbusA319("G-EPPE"))
     f.allocate_seat('12A', "Test passenger")
     f.allocate_seat('15F', "Different Passenger")
     f.allocate_seat('15E', "Another Person")
     f.allocate_seat('1C', 'Some Random Person')
     f.allocate_seat('1D', 'A Passenger Steve')
-    return f
+
+    g = Flight("AF72", Boeing777("F-GSPS"))
+    g.allocate_seat('55K', "Test passenger")
+    g.allocate_seat('33G', "Different Passenger")
+    g.allocate_seat('4B', "Another Person")
+    g.allocate_seat('4A', 'Some Random Person')
+
+    return f, g
 
 
 def console_card_printer(passenger, seat, flight_number, aircraft):
